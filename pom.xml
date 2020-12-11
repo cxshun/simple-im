@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>simple-im-server</module>
+        <module>simple-im-common</module>
     </modules>
 
     <properties>
@@ -17,6 +18,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <netty.version>4.1.54.Final</netty.version>
         <spring-boot.version>2.4.0</spring-boot.version>
+        <mybatis-plus.version>3.4.1</mybatis-plus.version>
+        <lombok.version>1.18.12</lombok.version>
+        <commons-lang3.version>3.10</commons-lang3.version>
     </properties>
 
     <parent>
@@ -24,5 +28,39 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.4.0</version>
     </parent>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
