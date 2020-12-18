@@ -11,6 +11,7 @@
     <modules>
         <module>simple-im-server</module>
         <module>simple-im-common</module>
+        <module>simple-im-client</module>
     </modules>
 
     <properties>
