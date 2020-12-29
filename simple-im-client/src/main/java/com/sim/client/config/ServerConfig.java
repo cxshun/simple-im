@@ -16,7 +16,7 @@ public class ServerConfig {
     /**
      * serviceIp
      */
-    private String host = "127.0.0.1";
+    private String host = "localhost";
 
     /**
      * remote server port

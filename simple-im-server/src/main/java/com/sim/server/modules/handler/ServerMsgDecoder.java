@@ -1,18 +1,27 @@
 package com.sim.server.modules.handler;
 
-import com.alibaba.fastjson.JSON;
-import com.sim.server.modules.command.CommandProcessor;
-import com.sim.server.modules.command.CommandProcessorFactory;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * @author xiaoshun.cxs
  * 12/27/2020
  **/
 @Slf4j
-public class ServerMsgDecoder extends ChannelInboundHandlerAdapter {
+public class ServerMsgDecoder extends ByteToMessageDecoder {
+
+    @Override
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+        byte[] bytes = new byte[in.readableBytes()];
+        in.readBytes(bytes);
+        out.add(new String(bytes));
+    }
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
@@ -21,13 +30,13 @@ public class ServerMsgDecoder extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("connection established");
+        log.info("connection active");
+        ctx.writeAndFlush(Unpooled.copiedBuffer("Your connection is active, now chat with pleasure\n", CharsetUtil.UTF_8));
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        CommandProcessor commandProcessor = CommandProcessorFactory.getProcessor(JSON.toJSONString(msg));
-        String returnMsg = commandProcessor.process(commandProcessor.getArgs(JSON.toJSONString(msg))[0]);
-        ctx.writeAndFlush(returnMsg);
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        log.error(cause.getMessage(), cause);
     }
+
 }
