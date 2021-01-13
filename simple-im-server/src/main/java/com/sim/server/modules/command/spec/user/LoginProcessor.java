@@ -39,7 +39,7 @@ public class LoginProcessor extends AbstractCommandProcessor {
 
         //password not match
         if (!user.getPassword().equals(args[1])) {
-            throw new BizException(MessageCode.BIZ_ERROR, "password not match");
+            throw new BizException(MessageCode.CUSTOM_ERROR, "password not match");
         }
 
         //update current user's session

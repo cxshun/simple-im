@@ -14,7 +14,7 @@ public class SessionManager {
     /**
      * MAP that store user's channelHandler
      */
-    private static final Map<String, ChannelHandlerContext> CHANNEL_HANDLER_CONTEXT_MAP = new HashMap<>(128);
+    private static final Map<String, ChannelHandlerContext> CHANNEL_HANDLER_CONTEXT_MAP = new LinkedHashMap<>(128);
 
     private SessionManager() {}
 

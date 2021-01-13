@@ -13,15 +13,13 @@ import java.nio.charset.StandardCharsets;
  **/
 public class ByteBufUtils {
 
-    public static final String SEPARATOR = "\n";
-
     /**
      * write String with specify separator, currently default to \n
      * @param message message that need to convert
      * @return ByteBuf after convert
      */
     public static ByteBuf writeStringWithLineBreak(String message) {
-        message = message + "\n";
+        message = message + CommonConstant.SEPARATOR;
         return Unpooled.copiedBuffer(message, CharsetUtil.UTF_8);
     }
 

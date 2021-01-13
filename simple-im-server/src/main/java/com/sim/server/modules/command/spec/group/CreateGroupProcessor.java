@@ -24,7 +24,7 @@ public class CreateGroupProcessor extends AbstractCommandProcessor {
     public String process(String command) throws BizException {
         String[] args = getArgs(command);
         User user = userService.getBySessionId(getChannelHandlerContext().channel().id().asLongText());
-        groupService.join(args[1], user.getId());
+        groupService.createGroup(args[1], user.getId());
         return MessageCode.SUCCESS.getDesc();
     }
 }

@@ -15,7 +15,7 @@ import java.util.Date;
  * @author xiaoshun.cxs
  * 12/21/2020
  **/
-@TableName("group")
+@TableName("`group`")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -41,7 +41,7 @@ public class GroupServiceImpl extends AbstractServiceImpl<Group, Long> implement
     @Override
     public Long createGroup(String name, Long creatorId) {
         //create new group
-        Group group = new Group().setMemberCount(1).setCreatorUid(creatorId);
+        Group group = new Group().setMemberCount(1).setCreatorUid(creatorId).setName(name);
         groupMapper.insert(group);
 
         if (!join(group.getId(), creatorId)) {
@@ -92,6 +92,10 @@ public class GroupServiceImpl extends AbstractServiceImpl<Group, Long> implement
     @Override
     public List<GroupMemberRel> memberList(String name) {
         Group group = getByName(name);
-        return groupMemberRelMapper.selectList(new QueryWrapper<GroupMemberRel>().eq("group_id", group.getId()));
+        return groupMemberRelMapper.selectList(
+                new QueryWrapper<GroupMemberRel>()
+                        .eq("group_id", group.getId())
+                        .orderByDesc("create_time")
+        );
     }
 }
