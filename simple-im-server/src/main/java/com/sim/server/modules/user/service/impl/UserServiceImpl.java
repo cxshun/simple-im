@@ -9,8 +9,6 @@ import com.sim.server.modules.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * @author xiaoshun.cxs
  * 2020/12/9
@@ -24,31 +22,6 @@ public class UserServiceImpl extends AbstractServiceImpl<User, Long> implements 
     @Override
     protected BaseMapper<User> getMapper() {
         return userMapper;
-    }
-
-    @Override
-    public User detail(Long id) {
-        return getMapper().selectById(id);
-    }
-
-    @Override
-    public List<User> listByIds(List<Long> idList) {
-        return getMapper().selectBatchIds(idList);
-    }
-
-    @Override
-    public boolean insert(User user) {
-        return getMapper().insert(user) > 0;
-    }
-
-    @Override
-    public boolean update(User user) {
-        return getMapper().updateById(user) > 0;
-    }
-
-    @Override
-    public boolean delete(Long id) {
-        return getMapper().deleteById(id) > 0;
     }
 
     @Override

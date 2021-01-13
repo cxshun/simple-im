@@ -81,7 +81,9 @@ public class GroupServiceImpl extends AbstractServiceImpl<Group, Long> implement
                 new QueryWrapper<GroupMemberRel>().eq("uid", uid)
         );
         List<Long> groupIdList = groupMemberRelList.stream().map(GroupMemberRel::getGroupId).collect(Collectors.toList());
-        return groupMapper.selectList(new QueryWrapper<Group>().in("group_id", groupIdList));
+        return groupMapper.selectList(
+                new QueryWrapper<Group>().in("id", groupIdList).orderByDesc("create_time")
+        );
     }
 
     @Override

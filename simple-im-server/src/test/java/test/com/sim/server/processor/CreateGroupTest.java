@@ -26,7 +26,7 @@ public class CreateGroupTest extends ImServerApplicationTest {
     }
 
     @After
-    public void teardown() {
+    public void tearDown() {
         getJdbcTemplate().execute("delete from `user`");
         getJdbcTemplate().execute("delete from `group`");
     }

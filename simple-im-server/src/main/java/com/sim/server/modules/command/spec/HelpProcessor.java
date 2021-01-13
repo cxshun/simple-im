@@ -16,16 +16,16 @@ public class HelpProcessor extends AbstractCommandProcessor {
     @Override
     public String process(String command) {
         List<String> commandList = Arrays.asList(
-                ":sChat uid message - single chat",
-                ":gChat gid - group chat in specify gid",
+                ":sChat loginId message - single chat",
+                ":gChat groupName - group chat in specify gid",
                 ":createGroup groupName - create group",
-                ":gMemberList gid - member list for specify group",
-                ":join groupId - join specify group, if joined,nothing happened,but switch to chat",
-                ":quit groupId - quit specify group, if quited, nothing happened",
+                ":gMemberList groupName - member list for specify group",
+                ":join groupName - join specify group, if joined,nothing happened,but switch to chat",
+                ":quit groupName - quit specify group, if quited, nothing happened",
                 ":onlineUserList - online user list",
                 ":groupList - current group list",
-                ":joinGroupList - group list that you current joined",
-                ":login id:password - login with id and password"
+                ":joinedGroupList - group list that you current joined",
+                ":login loginId:password - login with id and password"
         );
 
         return String.join("\n", commandList);

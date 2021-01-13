@@ -20,15 +20,16 @@ public class CommandProcessorFactory {
      */
     public static CommandProcessor getProcessor(ChannelHandlerContext channelHandlerContext, String message) throws BizException {
         CommandType[] commandTypes = CommandType.values();
+        String[] args = message.split(" ");
         for (CommandType commandType:commandTypes) {
-            if (message.startsWith(commandType.getType())) {
+            if (args[0].equalsIgnoreCase(commandType.getType())) {
                 CommandProcessor commandProcessor = SpringUtils.getBean(commandType.getProcessor());
                 commandProcessor.setChannelHandlerContext(channelHandlerContext);
                 return commandProcessor;
             }
         }
 
-        throw new BizException(MessageCode.CUSTOM_ERROR, StringUtils.format("command:{} is not supported", message));
+        throw new BizException(MessageCode.CUSTOM_ERROR, StringUtils.format("command:{} is not supported", args[0]));
     }
 
 }

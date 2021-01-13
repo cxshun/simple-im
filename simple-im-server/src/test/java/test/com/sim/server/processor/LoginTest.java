@@ -2,6 +2,7 @@ package test.com.sim.server.processor;
 
 import com.sim.common.utils.ByteBufUtils;
 import io.netty.channel.embedded.EmbeddedChannel;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import test.com.sim.server.ImServerApplicationTest;
@@ -21,6 +22,11 @@ public class LoginTest extends ImServerApplicationTest {
         channel.readOutbound();
         String str = ByteBufUtils.fromByteBuf(channel.readOutbound());
         Assert.assertEquals("login success", str);
+    }
+
+    @After
+    public void tearDown() {
+        getJdbcTemplate().execute("delete from `user`");
     }
 
 }

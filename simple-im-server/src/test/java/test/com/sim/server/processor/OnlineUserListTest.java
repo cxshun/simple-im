@@ -33,7 +33,7 @@ public class OnlineUserListTest extends ImServerApplicationTest {
     }
 
     @After
-    public void teardown() {
+    public void tearDown() {
         getJdbcTemplate().execute("delete from `user`");
     }
 
