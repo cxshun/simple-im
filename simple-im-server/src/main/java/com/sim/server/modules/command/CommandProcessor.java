@@ -1,12 +1,25 @@
 package com.sim.server.modules.command;
 
 import com.sim.common.exception.BizException;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * @author xiaoshun.cxs
  * 2020/12/8
  **/
 public interface CommandProcessor {
+
+    /**
+     * get channelHandlerContext
+     * @return channelHandlerContext
+     */
+    ChannelHandlerContext getChannelHandlerContext();
+
+    /**
+     * set current relate handlerContext
+     * @param channelHandlerContext relate to the current command client
+     */
+    void setChannelHandlerContext(ChannelHandlerContext channelHandlerContext);
 
     /**
      * processor for user input command

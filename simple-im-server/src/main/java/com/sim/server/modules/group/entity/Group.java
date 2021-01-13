@@ -32,6 +32,10 @@ public class Group {
      */
     private String name;
     /**
+     * creator uid
+     */
+    private Long creatorUid;
+    /**
      * member count
      */
     private Integer memberCount;

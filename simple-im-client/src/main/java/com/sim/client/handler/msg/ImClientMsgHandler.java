@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ImClientMsgHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        log.info("received msg:{}", msg);
-        System.out.println(msg);
+        log.info("received msg:\n{}", msg);
     }
 }

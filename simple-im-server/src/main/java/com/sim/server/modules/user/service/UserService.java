@@ -1,7 +1,7 @@
 package com.sim.server.modules.user.service;
 
-import com.sim.server.modules.user.entity.User;
 import com.sim.server.BaseService;
+import com.sim.server.modules.user.entity.User;
 
 /**
  * @author xiaoshun.cxs
@@ -15,5 +15,12 @@ public interface UserService extends BaseService<User, Long> {
      * @return userinfo
      */
     User getByLoginId(String loginId);
+
+    /**
+     * get userInfo based on the sessionId
+     * @param sessionId specify sessionId
+     * @return userInfo
+     */
+    User getBySessionId(String sessionId);
 
 }

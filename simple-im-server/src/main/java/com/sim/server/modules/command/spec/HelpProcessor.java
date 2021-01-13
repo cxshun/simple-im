@@ -12,19 +12,20 @@ import java.util.List;
  * 2020/12/8
  **/
 @Component
-public class HelpCommandProcessor extends AbstractCommandProcessor {
+public class HelpProcessor extends AbstractCommandProcessor {
     @Override
     public String process(String command) {
         List<String> commandList = Arrays.asList(
-                ":sChat uid - single chat",
-                ":gChat [gid] - group chat in specify gid(optional)",
+                ":sChat uid message - single chat",
+                ":gChat gid - group chat in specify gid",
+                ":createGroup groupName - create group",
                 ":gMemberList gid - member list for specify group",
                 ":join groupId - join specify group, if joined,nothing happened,but switch to chat",
                 ":quit groupId - quit specify group, if quited, nothing happened",
-                ":ouList - online user list",
+                ":onlineUserList - online user list",
                 ":groupList - current group list",
                 ":joinGroupList - group list that you current joined",
-                ":login loginId password - login with id and password"
+                ":login id:password - login with id and password"
         );
 
         return String.join("\n", commandList);

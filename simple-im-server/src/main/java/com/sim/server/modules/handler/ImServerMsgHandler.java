@@ -1,6 +1,7 @@
 package com.sim.server.modules.handler;
 
-import com.alibaba.fastjson.JSON;
+import com.sim.common.utils.ByteBufUtils;
+import com.sim.common.utils.StringUtils;
 import com.sim.server.modules.command.CommandProcessor;
 import com.sim.server.modules.command.CommandProcessorFactory;
 import io.netty.channel.ChannelHandlerContext;
@@ -17,9 +18,11 @@ public class ImServerMsgHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         log.info("received message:{}", msg);
-        CommandProcessor commandProcessor = CommandProcessorFactory.getProcessor(JSON.toJSONString(msg));
-        String returnMsg = commandProcessor.process(commandProcessor.getArgs(JSON.toJSONString(msg))[0]);
-        ctx.writeAndFlush(returnMsg);
+        CommandProcessor commandProcessor = CommandProcessorFactory.getProcessor(ctx, msg);
+        String returnMsg = commandProcessor.process(msg);
+        if (StringUtils.isNotEmpty(returnMsg)) {
+            ctx.writeAndFlush(ByteBufUtils.writeStringWithLineBreak(returnMsg));
+        }
     }
 
 }

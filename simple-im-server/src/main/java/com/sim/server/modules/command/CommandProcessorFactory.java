@@ -4,6 +4,7 @@ import com.sim.common.exception.BizException;
 import com.sim.common.exception.MessageCode;
 import com.sim.common.utils.SpringUtils;
 import com.sim.common.utils.StringUtils;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * @author xiaoshun.cxs
@@ -17,11 +18,13 @@ public class CommandProcessorFactory {
      * @return Processor
      * @throws BizException can not find related processor
      */
-    public static CommandProcessor getProcessor(String message) throws BizException {
+    public static CommandProcessor getProcessor(ChannelHandlerContext channelHandlerContext, String message) throws BizException {
         CommandType[] commandTypes = CommandType.values();
         for (CommandType commandType:commandTypes) {
             if (message.startsWith(commandType.getType())) {
-                return SpringUtils.getBean(commandType.getProcessor());
+                CommandProcessor commandProcessor = SpringUtils.getBean(commandType.getProcessor());
+                commandProcessor.setChannelHandlerContext(channelHandlerContext);
+                return commandProcessor;
             }
         }
 

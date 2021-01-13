@@ -23,7 +23,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author xiaoshun.cxs
  * 2020/12/8
  **/
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.sim")
 @MapperScan("com.sim.**.dao")
 public class ImServerApplication implements CommandLineRunner {
     @Autowired
@@ -56,8 +56,7 @@ public class ImServerApplication implements CommandLineRunner {
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true)
-                    .childOption(ChannelOption.AUTO_READ, true);
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             ChannelFuture f = b.bind(commonConfig.getPort()).sync();
             f.channel().closeFuture().sync();

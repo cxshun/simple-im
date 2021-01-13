@@ -33,6 +33,10 @@ public class User {
      */
     private String loginId;
     /**
+     * channelId related to the current user
+     */
+    private String sessionId;
+    /**
      * login password currently not encrypted
      */
     private String password;

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * 2020/12/10
  **/
 @Slf4j
-public class StringUtils {
+public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     private static final Pattern PATTERN = Pattern.compile("\\{\\}");
 

@@ -1,5 +1,6 @@
 package com.sim.server.modules.chat.handler;
 
+import com.sim.common.utils.ByteBufUtils;
 import com.sim.server.modules.command.CommandProcessor;
 import com.sim.server.modules.command.CommandProcessorFactory;
 import com.sim.server.modules.user.service.SessionManager;
@@ -22,11 +23,10 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        CommandProcessor processor = CommandProcessorFactory.getProcessor(msg.toString());
-        SessionManager.registerChannel(processor.getArgs(msg.toString())[0], ctx);
+        CommandProcessor processor = CommandProcessorFactory.getProcessor(ctx, msg.toString());
         String returnMsg = processor.process(msg.toString());
         if (StringUtils.isNotBlank(returnMsg)) {
-            ctx.writeAndFlush(processor.process(msg.toString()));
+            ctx.writeAndFlush(ByteBufUtils.writeStringWithLineBreak(returnMsg));
         }
     }
 

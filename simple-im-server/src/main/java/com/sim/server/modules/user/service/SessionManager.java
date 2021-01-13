@@ -2,8 +2,8 @@ package com.sim.server.modules.user.service;
 
 import io.netty.channel.ChannelHandlerContext;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author xiaoshun.cxs
@@ -48,11 +48,44 @@ public class SessionManager {
     }
 
     /**
+     * get loginId according to the current channelHandlerContext
+     * @param channelHandlerContext current channelHandlerContext
+     * @return loginId
+     */
+    public static String getLoginId(ChannelHandlerContext channelHandlerContext) {
+        Optional<Map.Entry<String, ChannelHandlerContext>> optional = CHANNEL_HANDLER_CONTEXT_MAP.entrySet()
+                .stream()
+                .filter(entry ->
+                        entry.getValue().channel().id().equals(channelHandlerContext.channel().id())
+                )
+                .findFirst();
+
+        return optional.map(Map.Entry::getKey).orElse(null);
+    }
+
+    /**
+     * get channel related to the user
+     * @param loginIdList loginIdList
+     * @return channelHandlerContext, the sequence is {inBoundHandler, outBoundHandler}
+     */
+    public static List<ChannelHandlerContext> listByLoginIds(List<String> loginIdList) {
+        return loginIdList.stream().map(CHANNEL_HANDLER_CONTEXT_MAP::get).collect(Collectors.toList());
+    }
+
+    /**
      * remove channel related to ths user
      * @param loginId loginId
      */
     public static void removeChannel(String loginId) {
         CHANNEL_HANDLER_CONTEXT_MAP.remove(loginId);
+    }
+
+    /**
+     * list all loginId in order to show onlineUserList
+     * @return loginId for all onlineUser
+     */
+    public static List<String> list() {
+        return new ArrayList<>(CHANNEL_HANDLER_CONTEXT_MAP.keySet());
     }
 
 }

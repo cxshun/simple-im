@@ -1,5 +1,6 @@
-package com.sim.server.modules.command.spec;
+package com.sim.server.modules.command.spec.group;
 
+import com.sim.common.constant.CommonConstant;
 import com.sim.common.exception.BizException;
 import com.sim.server.modules.command.AbstractCommandProcessor;
 import com.sim.server.modules.group.entity.Group;
@@ -24,7 +25,7 @@ public class GroupListProcessor extends AbstractCommandProcessor {
     public String process(String command) throws BizException {
         List<Group> groupList = groupService.list();
         return groupList.stream()
-                .map(group -> group.getName() + ":" + group.getId())
-                .collect(Collectors.joining("\n"));
+                .map(Group::getName)
+                .collect(Collectors.joining(CommonConstant.SEPARATOR));
     }
 }
