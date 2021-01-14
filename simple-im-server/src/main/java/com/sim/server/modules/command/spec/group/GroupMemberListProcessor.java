@@ -1,7 +1,11 @@
 package com.sim.server.modules.command.spec.group;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.sim.common.constant.CommonConstant;
 import com.sim.common.exception.BizException;
+import com.sim.common.msg.format.MsgParams;
+import com.sim.common.msg.format.spec.group.GroupMemberListMsg;
 import com.sim.server.modules.command.AbstractCommandProcessor;
 import com.sim.server.modules.group.entity.GroupMemberRel;
 import com.sim.server.modules.group.service.GroupService;
@@ -18,7 +22,7 @@ import java.util.stream.Collectors;
  * 2021/1/12
  **/
 @Component
-public class GroupMemberListProcessor extends AbstractCommandProcessor {
+public class GroupMemberListProcessor extends AbstractCommandProcessor<GroupMemberListMsg> {
     @Autowired
     private GroupService groupService;
     @Autowired
@@ -26,10 +30,16 @@ public class GroupMemberListProcessor extends AbstractCommandProcessor {
 
     @Override
     public String process(String command) throws BizException {
-        String[] args = getArgs(command);
-        List<GroupMemberRel> groupMemberRelList = groupService.memberList(args[1]);
+        GroupMemberListMsg groupMemberListMsg = getArgs(command);
+        List<GroupMemberRel> groupMemberRelList = groupService.memberList(groupMemberListMsg.getGroupName());
         List<Long> uidList = groupMemberRelList.stream().map(GroupMemberRel::getUid).collect(Collectors.toList());
         List<User> userList = userService.listByIds(uidList);
         return userList.stream().map(User::getLoginId).collect(Collectors.joining(CommonConstant.SEPARATOR));
+    }
+
+    @Override
+    protected GroupMemberListMsg getArgs(String message) throws BizException {
+        MsgParams<GroupMemberListMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<GroupMemberListMsg>>(){}.getType());
+        return msgParams.getMsg();
     }
 }

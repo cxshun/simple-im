@@ -1,7 +1,7 @@
 package com.sim.server.modules.group.service.impl;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sim.server.AbstractServiceImpl;
+import com.sim.common.service.AbstractServiceImpl;
 import com.sim.server.modules.group.dao.GroupMemberRelMapper;
 import com.sim.server.modules.group.entity.GroupMemberRel;
 import com.sim.server.modules.group.service.GroupMemberRelService;

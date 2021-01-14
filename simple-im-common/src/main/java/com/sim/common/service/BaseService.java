@@ -1,4 +1,4 @@
-package com.sim.server;
+package com.sim.common.service;
 
 import java.io.Serializable;
 import java.util.List;

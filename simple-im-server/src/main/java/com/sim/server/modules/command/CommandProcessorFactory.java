@@ -1,9 +1,11 @@
 package com.sim.server.modules.command;
 
+import com.alibaba.fastjson.JSON;
 import com.sim.common.exception.BizException;
 import com.sim.common.exception.MessageCode;
 import com.sim.common.utils.SpringUtils;
 import com.sim.common.utils.StringUtils;
+import com.sim.common.msg.format.MsgParams;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -20,16 +22,16 @@ public class CommandProcessorFactory {
      */
     public static CommandProcessor getProcessor(ChannelHandlerContext channelHandlerContext, String message) throws BizException {
         CommandType[] commandTypes = CommandType.values();
-        String[] args = message.split(" ");
+        MsgParams<?> msgParams = JSON.parseObject(message, MsgParams.class);
         for (CommandType commandType:commandTypes) {
-            if (args[0].equalsIgnoreCase(commandType.getType())) {
+            if (msgParams.getAction().equalsIgnoreCase(commandType.getType())) {
                 CommandProcessor commandProcessor = SpringUtils.getBean(commandType.getProcessor());
                 commandProcessor.setChannelHandlerContext(channelHandlerContext);
                 return commandProcessor;
             }
         }
 
-        throw new BizException(MessageCode.CUSTOM_ERROR, StringUtils.format("command:{} is not supported", args[0]));
+        throw new BizException(MessageCode.CUSTOM_ERROR, StringUtils.format("command:{} is not supported", msgParams));
     }
 
 }

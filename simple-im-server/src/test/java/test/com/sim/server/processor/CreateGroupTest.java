@@ -1,6 +1,10 @@
 package test.com.sim.server.processor;
 
+import com.alibaba.fastjson.JSON;
 import com.sim.common.utils.ByteBufUtils;
+import com.sim.common.msg.format.MsgParams;
+import com.sim.common.msg.format.spec.group.CreateGroupMsg;
+import com.sim.server.modules.command.CommandType;
 import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.After;
 import org.junit.Assert;
@@ -20,7 +24,15 @@ public class CreateGroupTest extends ImServerApplicationTest {
     public void test() {
         List<EmbeddedChannel> embeddedChannelList = Collections.singletonList(getChannel());
         withLoginUser(embeddedChannelList);
-        embeddedChannelList.get(0).writeInbound(ByteBufUtils.writeStringWithLineBreak(":createGroup demoGroup"));
+        embeddedChannelList.get(0).writeInbound(
+                ByteBufUtils.writeStringWithLineBreak(
+                        JSON.toJSONString(
+                                new MsgParams<CreateGroupMsg>()
+                                        .setAction(CommandType.CREATE_GROUP.getType())
+                                        .setMsg((CreateGroupMsg) new CreateGroupMsg().setGroupName("demoGroup"))
+                        )
+                )
+        );
         String message = ByteBufUtils.fromByteBuf(embeddedChannelList.get(0).readOutbound());
         Assert.assertEquals("success", message);
     }

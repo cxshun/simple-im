@@ -1,4 +1,4 @@
-package com.sim.server;
+package com.sim.common.service;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * 2020/12/9
  **/
 @Slf4j
-public abstract class AbstractServiceImpl<T, IdType extends Serializable> implements BaseService<T, IdType>{
+public abstract class AbstractServiceImpl<T, IdType extends Serializable> implements BaseService<T, IdType> {
 
     /**
      * get mapper for the current entity

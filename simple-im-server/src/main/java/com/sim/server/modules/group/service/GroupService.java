@@ -1,6 +1,6 @@
 package com.sim.server.modules.group.service;
 
-import com.sim.server.BaseService;
+import com.sim.common.service.BaseService;
 import com.sim.server.modules.group.entity.Group;
 import com.sim.server.modules.group.entity.GroupMemberRel;
 

@@ -1,8 +1,11 @@
 package com.sim.server.modules.command.spec.user;
 
-import com.sim.common.constant.CommonConstant;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.sim.common.exception.BizException;
 import com.sim.common.utils.ByteBufUtils;
+import com.sim.common.msg.format.MsgParams;
+import com.sim.common.msg.format.spec.user.SingleChatMsg;
 import com.sim.server.modules.command.AbstractCommandProcessor;
 import com.sim.server.modules.user.entity.User;
 import com.sim.server.modules.user.service.SessionManager;
@@ -11,28 +14,28 @@ import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 /**
  * @author xiaoshun.cxs
  * 12/21/2020
  **/
 @Component
-public class SingleChatProcessor extends AbstractCommandProcessor {
+public class SingleChatProcessor extends AbstractCommandProcessor<SingleChatMsg> {
     @Autowired
     private UserService userService;
 
     @Override
     public String process(String command) throws BizException {
-        String[] args = getArgs(command);
-        User user = userService.getByLoginId(args[1]);
+        SingleChatMsg singleChatMsg = getArgs(command);
+        User user = userService.getByLoginId(singleChatMsg.getLoginId());
 
-        String message = IntStream.range(2, args.length).boxed()
-                .map(idx -> args[idx])
-                .collect(Collectors.joining(" "));
         ChannelHandlerContext channelHandlerContext = SessionManager.getChannel(user.getLoginId());
-        channelHandlerContext.writeAndFlush(ByteBufUtils.writeStringWithLineBreak(message));
+        channelHandlerContext.writeAndFlush(ByteBufUtils.writeStringWithLineBreak(singleChatMsg.getMsg()));
         return null;
+    }
+
+    @Override
+    protected SingleChatMsg getArgs(String message) throws BizException {
+        MsgParams<SingleChatMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<SingleChatMsg>>(){}.getType());
+        return msgParams.getMsg();
     }
 }

@@ -1,5 +1,10 @@
 package com.sim.server.modules.command.spec;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.sim.common.exception.BizException;
+import com.sim.common.msg.format.MsgParams;
+import com.sim.common.msg.format.spec.HelpMsg;
 import com.sim.server.modules.command.AbstractCommandProcessor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +17,7 @@ import java.util.List;
  * 2020/12/8
  **/
 @Component
-public class HelpProcessor extends AbstractCommandProcessor {
+public class HelpProcessor extends AbstractCommandProcessor<HelpMsg> {
     @Override
     public String process(String command) {
         List<String> commandList = Arrays.asList(
@@ -29,6 +34,12 @@ public class HelpProcessor extends AbstractCommandProcessor {
         );
 
         return String.join("\n", commandList);
+    }
+
+    @Override
+    protected HelpMsg getArgs(String message) throws BizException {
+        MsgParams<HelpMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<HelpMsg>>(){}.getType());
+        return msgParams.getMsg();
     }
 
 }

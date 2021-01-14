@@ -1,7 +1,11 @@
 package com.sim.server.modules.command.spec.group;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.sim.common.exception.BizException;
 import com.sim.common.utils.ByteBufUtils;
+import com.sim.common.msg.format.MsgParams;
+import com.sim.common.msg.format.spec.group.GroupChatMsg;
 import com.sim.server.modules.command.AbstractCommandProcessor;
 import com.sim.server.modules.group.entity.GroupMemberRel;
 import com.sim.server.modules.group.service.GroupService;
@@ -14,14 +18,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * @author xiaoshun.cxs
  * 2021/1/12
  **/
 @Component
-public class GroupChatProcessor extends AbstractCommandProcessor {
+public class GroupChatProcessor extends AbstractCommandProcessor<GroupChatMsg> {
     @Autowired
     private GroupService groupService;
     @Autowired
@@ -29,14 +32,10 @@ public class GroupChatProcessor extends AbstractCommandProcessor {
 
     @Override
     public String process(String command) throws BizException {
-        String[] args = getArgs(command);
-        //get sending message
-        String message = IntStream.range(2, args.length).boxed()
-                .map(idx -> args[idx])
-                .collect(Collectors.joining(" "));
+        GroupChatMsg groupChatMsg = getArgs(command);
 
         //1、get current group's memberList
-        List<GroupMemberRel> groupMemberRelList = groupService.memberList(args[1]);
+        List<GroupMemberRel> groupMemberRelList = groupService.memberList(groupChatMsg.getGroupName());
         User user = userService.getBySessionId(getChannelHandlerContext().channel().id().asLongText());
         //2、filter current user，current user don't need to receive his own message
         groupMemberRelList = groupMemberRelList.stream()
@@ -52,8 +51,14 @@ public class GroupChatProcessor extends AbstractCommandProcessor {
         //4、get channelHandlerContext in order to sending message
         List<ChannelHandlerContext> channelHandlerContextList = SessionManager.listByLoginIds(loginIdList);
         channelHandlerContextList.forEach(channelHandlerContext -> {
-            channelHandlerContext.writeAndFlush(ByteBufUtils.writeStringWithLineBreak(message));
+            channelHandlerContext.writeAndFlush(ByteBufUtils.writeStringWithLineBreak(groupChatMsg.getMsg()));
         });
         return null;
+    }
+
+    @Override
+    protected GroupChatMsg getArgs(String message) throws BizException {
+        MsgParams<GroupChatMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<GroupChatMsg>>(){}.getType());
+        return msgParams.getMsg();
     }
 }

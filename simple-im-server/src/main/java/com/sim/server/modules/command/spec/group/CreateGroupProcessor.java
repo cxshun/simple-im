@@ -1,7 +1,11 @@
 package com.sim.server.modules.command.spec.group;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.sim.common.exception.BizException;
 import com.sim.common.exception.MessageCode;
+import com.sim.common.msg.format.MsgParams;
+import com.sim.common.msg.format.spec.group.CreateGroupMsg;
 import com.sim.server.modules.command.AbstractCommandProcessor;
 import com.sim.server.modules.group.service.GroupService;
 import com.sim.server.modules.user.entity.User;
@@ -14,7 +18,7 @@ import org.springframework.stereotype.Component;
  * 2021/1/12
  **/
 @Component
-public class CreateGroupProcessor extends AbstractCommandProcessor {
+public class CreateGroupProcessor extends AbstractCommandProcessor<CreateGroupMsg> {
     @Autowired
     private UserService userService;
     @Autowired
@@ -22,9 +26,15 @@ public class CreateGroupProcessor extends AbstractCommandProcessor {
 
     @Override
     public String process(String command) throws BizException {
-        String[] args = getArgs(command);
+        CreateGroupMsg createGroupMsg = getArgs(command);
         User user = userService.getBySessionId(getChannelHandlerContext().channel().id().asLongText());
-        groupService.createGroup(args[1], user.getId());
+        groupService.createGroup(createGroupMsg.getGroupName(), user.getId());
         return MessageCode.SUCCESS.getDesc();
+    }
+
+    @Override
+    protected CreateGroupMsg getArgs(String message) throws BizException {
+        MsgParams<CreateGroupMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<CreateGroupMsg>>(){}.getType());
+        return msgParams.getMsg();
     }
 }

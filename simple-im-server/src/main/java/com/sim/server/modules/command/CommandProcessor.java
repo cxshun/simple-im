@@ -29,12 +29,4 @@ public interface CommandProcessor {
      */
     String process(String command) throws BizException;
 
-    /**
-     * get user's command arguments
-     * @param command user input command
-     * @return current command's related argument
-     * @throws BizException when some error happened, an BizException will be thrown
-     */
-    String[] getArgs(String command) throws BizException;
-
 }

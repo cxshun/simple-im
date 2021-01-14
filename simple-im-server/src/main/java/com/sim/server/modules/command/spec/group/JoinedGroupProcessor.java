@@ -1,7 +1,11 @@
 package com.sim.server.modules.command.spec.group;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.sim.common.constant.CommonConstant;
 import com.sim.common.exception.BizException;
+import com.sim.common.msg.format.MsgParams;
+import com.sim.common.msg.format.spec.group.JoinedGroupListMsg;
 import com.sim.server.modules.command.AbstractCommandProcessor;
 import com.sim.server.modules.group.entity.Group;
 import com.sim.server.modules.group.service.GroupService;
@@ -18,7 +22,7 @@ import java.util.stream.Collectors;
  * 2021/1/12
  **/
 @Component
-public class JoinedGroupProcessor extends AbstractCommandProcessor {
+public class JoinedGroupProcessor extends AbstractCommandProcessor<JoinedGroupListMsg> {
     @Autowired
     private GroupService groupService;
     @Autowired
@@ -30,5 +34,11 @@ public class JoinedGroupProcessor extends AbstractCommandProcessor {
         List<Group> groupList = groupService.getJoinedGroup(user.getId());
 
         return groupList.stream().map(Group::getName).collect(Collectors.joining(CommonConstant.SEPARATOR));
+    }
+
+    @Override
+    protected JoinedGroupListMsg getArgs(String message) throws BizException {
+        MsgParams<JoinedGroupListMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<JoinedGroupListMsg>>(){}.getType());
+        return msgParams.getMsg();
     }
 }

@@ -9,13 +9,16 @@ import lombok.Data;
  * 2020/12/14
  **/
 @Data
-public abstract class AbstractCommandProcessor implements CommandProcessor{
+public abstract class AbstractCommandProcessor<T> implements CommandProcessor{
 
     protected ChannelHandlerContext channelHandlerContext;
 
-    @Override
-    public String[] getArgs(String command) throws BizException {
-        return command.split(" ");
-    }
+    /**
+     * get current request detail msg
+     * @param message message
+     * @return detail msg dto
+     * @throws BizException some error happened
+     */
+    protected abstract T getArgs(String message) throws BizException;
 
 }

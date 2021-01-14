@@ -1,6 +1,12 @@
 package test.com.sim.server.processor;
 
+import com.alibaba.fastjson.JSON;
 import com.sim.common.utils.ByteBufUtils;
+import com.sim.common.msg.format.MsgParams;
+import com.sim.common.msg.format.spec.group.CreateGroupMsg;
+import com.sim.common.msg.format.spec.group.JoinGroupMsg;
+import com.sim.common.msg.format.spec.group.JoinedGroupListMsg;
+import com.sim.server.modules.command.CommandType;
 import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.After;
 import org.junit.Assert;
@@ -22,17 +28,49 @@ public class JoinedGroupListTest extends ImServerApplicationTest {
         withLoginUser(embeddedChannelList);
 
         //create 2 groups
-        embeddedChannelList.get(0).writeInbound(":createGroup demoGroup1");
+        embeddedChannelList.get(0).writeInbound(
+                ByteBufUtils.writeStringWithLineBreak(
+                        JSON.toJSONString(
+                                new MsgParams<CreateGroupMsg>()
+                                        .setAction(CommandType.CREATE_GROUP.getType())
+                                        .setMsg((CreateGroupMsg) new CreateGroupMsg().setGroupName("demoGroup1"))
+                        )
+                )
+        );
         embeddedChannelList.get(0).readOutbound();
 
-        embeddedChannelList.get(1).writeInbound(":createGroup demoGroup2");
+        embeddedChannelList.get(1).writeInbound(
+                ByteBufUtils.writeStringWithLineBreak(
+                        JSON.toJSONString(
+                                new MsgParams<CreateGroupMsg>()
+                                        .setAction(CommandType.CREATE_GROUP.getType())
+                                        .setMsg((CreateGroupMsg) new CreateGroupMsg().setGroupName("demoGroup2"))
+                        )
+                )
+        );
         embeddedChannelList.get(1).readOutbound();
 
         //first user join the second group, now the first user in 2 group
-        embeddedChannelList.get(0).writeInbound(":joinGroup demoGroup2");
+        embeddedChannelList.get(0).writeInbound(
+                ByteBufUtils.writeStringWithLineBreak(
+                        JSON.toJSONString(
+                                new MsgParams<JoinGroupMsg>()
+                                        .setAction(CommandType.JOIN_GROUP.getType())
+                                        .setMsg((JoinGroupMsg) new JoinGroupMsg().setGroupName("demoGroup2"))
+                        )
+                )
+        );
         embeddedChannelList.get(0).readOutbound();
 
-        embeddedChannelList.get(0).writeInbound(":joinedGroupList");
+        embeddedChannelList.get(0).writeInbound(
+                ByteBufUtils.writeStringWithLineBreak(
+                        JSON.toJSONString(
+                                new MsgParams<JoinedGroupListMsg>()
+                                        .setAction(CommandType.JOINED_GROUP_LIST.getType())
+                                        .setMsg(new JoinedGroupListMsg())
+                        )
+                )
+        );
         String message = ByteBufUtils.fromByteBuf(embeddedChannelList.get(0).readOutbound());
         Assert.assertEquals("demoGroup2\ndemoGroup1", message);
     }

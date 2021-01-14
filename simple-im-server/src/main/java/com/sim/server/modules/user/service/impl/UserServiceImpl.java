@@ -2,7 +2,7 @@ package com.sim.server.modules.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sim.server.AbstractServiceImpl;
+import com.sim.common.service.AbstractServiceImpl;
 import com.sim.server.modules.user.dao.UserMapper;
 import com.sim.server.modules.user.entity.User;
 import com.sim.server.modules.user.service.UserService;

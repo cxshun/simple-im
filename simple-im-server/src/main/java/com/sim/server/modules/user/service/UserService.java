@@ -1,6 +1,6 @@
 package com.sim.server.modules.user.service;
 
-import com.sim.server.BaseService;
+import com.sim.common.service.BaseService;
 import com.sim.server.modules.user.entity.User;
 
 /**

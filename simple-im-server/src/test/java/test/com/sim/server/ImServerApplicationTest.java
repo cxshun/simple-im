@@ -1,13 +1,20 @@
 package test.com.sim.server;
 
+import com.alibaba.fastjson.JSON;
+import com.sim.common.utils.ByteBufUtils;
+import com.sim.common.msg.format.MsgParams;
+import com.sim.common.msg.format.spec.user.LoginMsg;
+import com.sim.server.modules.command.CommandType;
 import com.sim.server.modules.handler.ImServerMsgHandler;
 import com.sim.server.modules.handler.ServerMsgDecoder;
+import com.sim.server.modules.user.service.SessionManager;
 import io.netty.channel.ChannelId;
 import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.Getter;
+import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,7 +48,14 @@ public class ImServerApplicationTest {
     protected void withLoginUser(List<EmbeddedChannel> embeddedChannelList) {
         int i = 1;
         for (EmbeddedChannel embeddedChannel:embeddedChannelList) {
-            embeddedChannel.writeInbound(":login shun" + (i ++) + ":1234");
+            embeddedChannel.writeInbound(
+                    ByteBufUtils.writeStringWithLineBreak(
+                            JSON.toJSONString(
+                                    new MsgParams<LoginMsg>()
+                                            .setAction(CommandType.LOGIN.getType())
+                                            .setMsg((LoginMsg) new LoginMsg().setPassword("1234").setLoginId("shun" + (i ++)))
+                            )
+                    ));
             embeddedChannel.readOutbound();
             embeddedChannel.readOutbound();
         }
@@ -71,6 +85,12 @@ public class ImServerApplicationTest {
 
             return asLongText().compareTo(o.asLongText());
         }
+    }
+
+    @After
+    public void globalTeardown() {
+        List<String> loginIdList = SessionManager.list();
+        loginIdList.forEach(SessionManager::removeChannel);
     }
 
 }
