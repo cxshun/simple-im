@@ -21,7 +21,7 @@ public class OnlineUserListProcessor extends AbstractCommandProcessor<OnlineUser
     }
 
     @Override
-    protected OnlineUserListMsg getArgs(String message) throws BizException {
+    protected OnlineUserListMsg getArgs(String message) {
         MsgParams<OnlineUserListMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<OnlineUserListMsg>>(){}.getType());
         return msgParams.getMsg();
     }

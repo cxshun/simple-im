@@ -1,6 +1,5 @@
 package com.sim.server.modules.command;
 
-import com.sim.common.exception.BizException;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Data;
 
@@ -17,8 +16,7 @@ public abstract class AbstractCommandProcessor<T> implements CommandProcessor{
      * get current request detail msg
      * @param message message
      * @return detail msg dto
-     * @throws BizException some error happened
      */
-    protected abstract T getArgs(String message) throws BizException;
+    protected abstract T getArgs(String message) ;
 
 }

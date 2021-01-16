@@ -33,7 +33,7 @@ public class JoinGroupProcessor extends AbstractCommandProcessor<JoinGroupMsg> {
     }
 
     @Override
-    protected JoinGroupMsg getArgs(String message) throws BizException {
+    protected JoinGroupMsg getArgs(String message) {
         MsgParams<JoinGroupMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<JoinGroupMsg>>(){}.getType());
         return msgParams.getMsg();
     }

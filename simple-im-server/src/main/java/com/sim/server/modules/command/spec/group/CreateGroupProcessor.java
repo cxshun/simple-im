@@ -33,7 +33,7 @@ public class CreateGroupProcessor extends AbstractCommandProcessor<CreateGroupMs
     }
 
     @Override
-    protected CreateGroupMsg getArgs(String message) throws BizException {
+    protected CreateGroupMsg getArgs(String message) {
         MsgParams<CreateGroupMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<CreateGroupMsg>>(){}.getType());
         return msgParams.getMsg();
     }
