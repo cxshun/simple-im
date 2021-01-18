@@ -1,9 +1,9 @@
 package test.com.sim.server.processor;
 
 import com.alibaba.fastjson.JSON;
-import com.sim.common.utils.ByteBufUtils;
 import com.sim.common.msg.format.MsgParams;
 import com.sim.common.msg.format.spec.user.LoginMsg;
+import com.sim.common.utils.ByteBufUtils;
 import com.sim.server.modules.command.CommandType;
 import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.After;
@@ -22,7 +22,7 @@ public class LoginMsgTest extends ImServerApplicationTest {
         EmbeddedChannel channel = getChannel();
         channel.writeInbound(ByteBufUtils.writeStringWithLineBreak(
                 JSON.toJSONString(
-                        new MsgParams<>(CommandType.LOGIN.getType(), (LoginMsg)new LoginMsg().setPassword("1234").setLoginId("shun"))
+                        new MsgParams<>(CommandType.LOGIN.getMsgType().getPrefix(), (LoginMsg)new LoginMsg().setPassword("1234").setLoginId("shun"))
                 )
             )
         );

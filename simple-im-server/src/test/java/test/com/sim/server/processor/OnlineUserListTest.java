@@ -30,7 +30,7 @@ public class OnlineUserListTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<OnlineUserListMsg>()
-                                        .setAction(CommandType.ONLINE_USER_LIST.getType())
+                                        .setAction(CommandType.ONLINE_USER_LIST.getMsgType().getPrefix())
                                         .setMsg(new OnlineUserListMsg())
                         )
                 )
@@ -43,7 +43,7 @@ public class OnlineUserListTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<OnlineUserListMsg>()
-                                        .setAction(CommandType.ONLINE_USER_LIST.getType())
+                                        .setAction(CommandType.ONLINE_USER_LIST.getMsgType().getPrefix())
                                         .setMsg(new OnlineUserListMsg())
                         )
                 )

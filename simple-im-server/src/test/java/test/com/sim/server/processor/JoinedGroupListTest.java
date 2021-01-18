@@ -1,11 +1,11 @@
 package test.com.sim.server.processor;
 
 import com.alibaba.fastjson.JSON;
-import com.sim.common.utils.ByteBufUtils;
 import com.sim.common.msg.format.MsgParams;
 import com.sim.common.msg.format.spec.group.CreateGroupMsg;
 import com.sim.common.msg.format.spec.group.JoinGroupMsg;
 import com.sim.common.msg.format.spec.group.JoinedGroupListMsg;
+import com.sim.common.utils.ByteBufUtils;
 import com.sim.server.modules.command.CommandType;
 import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.After;
@@ -32,7 +32,7 @@ public class JoinedGroupListTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<CreateGroupMsg>()
-                                        .setAction(CommandType.CREATE_GROUP.getType())
+                                        .setAction(CommandType.CREATE_GROUP.getMsgType().getPrefix())
                                         .setMsg((CreateGroupMsg) new CreateGroupMsg().setGroupName("demoGroup1"))
                         )
                 )
@@ -43,7 +43,7 @@ public class JoinedGroupListTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<CreateGroupMsg>()
-                                        .setAction(CommandType.CREATE_GROUP.getType())
+                                        .setAction(CommandType.CREATE_GROUP.getMsgType().getPrefix())
                                         .setMsg((CreateGroupMsg) new CreateGroupMsg().setGroupName("demoGroup2"))
                         )
                 )
@@ -55,7 +55,7 @@ public class JoinedGroupListTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<JoinGroupMsg>()
-                                        .setAction(CommandType.JOIN_GROUP.getType())
+                                        .setAction(CommandType.JOIN_GROUP.getMsgType().getPrefix())
                                         .setMsg((JoinGroupMsg) new JoinGroupMsg().setGroupName("demoGroup2"))
                         )
                 )
@@ -66,7 +66,7 @@ public class JoinedGroupListTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<JoinedGroupListMsg>()
-                                        .setAction(CommandType.JOINED_GROUP_LIST.getType())
+                                        .setAction(CommandType.JOINED_GROUP_LIST.getMsgType().getPrefix())
                                         .setMsg(new JoinedGroupListMsg())
                         )
                 )

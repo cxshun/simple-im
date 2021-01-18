@@ -1,9 +1,9 @@
 package test.com.sim.server.processor;
 
 import com.alibaba.fastjson.JSON;
-import com.sim.common.utils.ByteBufUtils;
 import com.sim.common.msg.format.MsgParams;
 import com.sim.common.msg.format.spec.group.CreateGroupMsg;
+import com.sim.common.utils.ByteBufUtils;
 import com.sim.server.modules.command.CommandType;
 import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.After;
@@ -28,7 +28,7 @@ public class CreateGroupTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<CreateGroupMsg>()
-                                        .setAction(CommandType.CREATE_GROUP.getType())
+                                        .setAction(CommandType.CREATE_GROUP.getMsgType().getPrefix())
                                         .setMsg((CreateGroupMsg) new CreateGroupMsg().setGroupName("demoGroup"))
                         )
                 )

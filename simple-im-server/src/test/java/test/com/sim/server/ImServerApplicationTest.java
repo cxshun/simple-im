@@ -52,7 +52,7 @@ public class ImServerApplicationTest {
                     ByteBufUtils.writeStringWithLineBreak(
                             JSON.toJSONString(
                                     new MsgParams<LoginMsg>()
-                                            .setAction(CommandType.LOGIN.getType())
+                                            .setAction(CommandType.LOGIN.getMsgType().getPrefix())
                                             .setMsg((LoginMsg) new LoginMsg().setPassword("1234").setLoginId("shun" + (i ++)))
                             )
                     ));

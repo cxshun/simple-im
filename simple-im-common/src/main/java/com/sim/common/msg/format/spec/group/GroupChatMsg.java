@@ -1,5 +1,6 @@
 package com.sim.common.msg.format.spec.group;
 
+import com.sim.common.msg.format.spec.MsgSpec;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,4 +23,9 @@ public class GroupChatMsg extends GroupMsg{
      */
     private String msg;
 
+    @Override
+    public MsgSpec parse(String message) {
+        String[] strs = message.split(" ");
+        return new GroupChatMsg().setMsg(strs[2]).setGroupName(strs[1]);
+    }
 }

@@ -30,7 +30,7 @@ public class GroupListTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<CreateGroupMsg>()
-                                        .setAction(CommandType.CREATE_GROUP.getType())
+                                        .setAction(CommandType.CREATE_GROUP.getMsgType().getPrefix())
                                         .setMsg((CreateGroupMsg) new CreateGroupMsg().setGroupName("demoGroup"))
                         )
                 )
@@ -41,7 +41,7 @@ public class GroupListTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<GroupListMsg>()
-                                        .setAction(CommandType.GROUP_LIST.getType())
+                                        .setAction(CommandType.GROUP_LIST.getMsgType().getPrefix())
                                         .setMsg(new GroupListMsg())
                         )
                 )

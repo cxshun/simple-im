@@ -1,5 +1,6 @@
 package com.sim.server.modules.command;
 
+import com.sim.common.msg.MsgType;
 import com.sim.server.modules.command.spec.HelpProcessor;
 import com.sim.server.modules.command.spec.group.*;
 import com.sim.server.modules.command.spec.user.LoginProcessor;
@@ -16,24 +17,22 @@ public enum CommandType {
     /**
      * command type that currently support
      */
-    HELP(":help", "help command", HelpProcessor.class),
-    SINGLE_CHAT(":sChat", "single chat", SingleChatProcessor.class),
-    CREATE_GROUP(":createGroup", "create a new group, current user automatically joined", CreateGroupProcessor.class),
-    GROUP_CHAT(":gChat", "group chat in specify gid(optional)", GroupChatProcessor.class),
-    GROUP_MEMBER_LIST(":gMemberList", "member list for specify group", GroupMemberListProcessor.class),
-    JOIN_GROUP(":joinGroup", "join specify group, if joined,nothing happened,but switch to chat", JoinGroupProcessor.class),
-    QUIT_GROUP(":quitGroup", "quit specify group, if quited, nothing happened", QuitGroupProcessor.class),
-    ONLINE_USER_LIST(":onlineUserList", "display online user list", OnlineUserListProcessor.class),
-    GROUP_LIST(":groupList", "current group list", GroupListProcessor.class),
-    JOINED_GROUP_LIST(":joinedGroupList", "group list that you current joined", JoinedGroupProcessor.class),
-    LOGIN(":login", "login with id and password", LoginProcessor.class);
+    HELP(MsgType.HELP, HelpProcessor.class),
+    SINGLE_CHAT(MsgType.SINGLE_CHAT, SingleChatProcessor.class),
+    CREATE_GROUP(MsgType.CREATE_GROUP, CreateGroupProcessor.class),
+    GROUP_CHAT(MsgType.GROUP_CHAT, GroupChatProcessor.class),
+    GROUP_MEMBER_LIST(MsgType.GROUP_MEMBER_LIST, GroupMemberListProcessor.class),
+    JOIN_GROUP(MsgType.JOIN_GROUP, JoinGroupProcessor.class),
+    QUIT_GROUP(MsgType.QUIT_GROUP, QuitGroupProcessor.class),
+    ONLINE_USER_LIST(MsgType.ONLINE_USER_LIST, OnlineUserListProcessor.class),
+    GROUP_LIST(MsgType.GROUP_LIST, GroupListProcessor.class),
+    JOINED_GROUP_LIST(MsgType.JOINED_GROUP_LIST, JoinedGroupProcessor.class),
+    LOGIN(MsgType.LOGIN, LoginProcessor.class);
 
-    private final String type;
-    private final String desc;
+    private final MsgType msgType;
     private final Class<? extends CommandProcessor> processor;
-    CommandType(String type, String desc, Class<? extends CommandProcessor> processor) {
-        this.type = type;
-        this.desc = desc;
+    CommandType(MsgType msgType, Class<? extends CommandProcessor> processor) {
+        this.msgType = msgType;
         this.processor = processor;
     }
 

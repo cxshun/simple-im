@@ -1,9 +1,9 @@
 package test.com.sim.server.processor;
 
 import com.alibaba.fastjson.JSON;
-import com.sim.common.utils.ByteBufUtils;
 import com.sim.common.msg.format.MsgParams;
 import com.sim.common.msg.format.spec.user.SingleChatMsg;
+import com.sim.common.utils.ByteBufUtils;
 import com.sim.server.modules.command.CommandType;
 import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.After;
@@ -29,7 +29,7 @@ public class SingleChatTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<SingleChatMsg>()
-                                        .setAction(CommandType.SINGLE_CHAT.getType())
+                                        .setAction(CommandType.SINGLE_CHAT.getMsgType().getPrefix())
                                         .setMsg((SingleChatMsg) new SingleChatMsg().setMsg("hello from shun1").setLoginId("shun2"))
                         )
                 )

@@ -29,7 +29,7 @@ public class MemberListTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<CreateGroupMsg>()
-                                        .setAction(CommandType.CREATE_GROUP.getType())
+                                        .setAction(CommandType.CREATE_GROUP.getMsgType().getPrefix())
                                         .setMsg((CreateGroupMsg)new CreateGroupMsg().setGroupName("demoGroup"))
                         )
                 ));
@@ -39,7 +39,7 @@ public class MemberListTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<GroupMemberListMsg>()
-                                        .setAction(CommandType.GROUP_MEMBER_LIST.getType())
+                                        .setAction(CommandType.GROUP_MEMBER_LIST.getMsgType().getPrefix())
                                         .setMsg((GroupMemberListMsg) new GroupMemberListMsg().setGroupName("demoGroup"))
                         )
                 ));
@@ -49,7 +49,7 @@ public class MemberListTest extends ImServerApplicationTest {
         embeddedChannelList.get(0).writeInbound(ByteBufUtils.writeStringWithLineBreak(
                 JSON.toJSONString(
                         new MsgParams<GroupMemberListMsg>()
-                                .setAction(CommandType.GROUP_MEMBER_LIST.getType())
+                                .setAction(CommandType.GROUP_MEMBER_LIST.getMsgType().getPrefix())
                                 .setMsg((GroupMemberListMsg) new GroupMemberListMsg().setGroupName("demoGroup"))
                 )
         ));

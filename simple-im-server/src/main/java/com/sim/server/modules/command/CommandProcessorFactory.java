@@ -3,9 +3,9 @@ package com.sim.server.modules.command;
 import com.alibaba.fastjson.JSON;
 import com.sim.common.exception.BizException;
 import com.sim.common.exception.MessageCode;
+import com.sim.common.msg.format.MsgParams;
 import com.sim.common.utils.SpringUtils;
 import com.sim.common.utils.StringUtils;
-import com.sim.common.msg.format.MsgParams;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -24,7 +24,7 @@ public class CommandProcessorFactory {
         CommandType[] commandTypes = CommandType.values();
         MsgParams<?> msgParams = JSON.parseObject(message, MsgParams.class);
         for (CommandType commandType:commandTypes) {
-            if (msgParams.getAction().equalsIgnoreCase(commandType.getType())) {
+            if (msgParams.getAction().equalsIgnoreCase(commandType.getMsgType().getPrefix())) {
                 CommandProcessor commandProcessor = SpringUtils.getBean(commandType.getProcessor());
                 commandProcessor.setChannelHandlerContext(channelHandlerContext);
                 return commandProcessor;

@@ -32,7 +32,7 @@ public class JoinGroupTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<CreateGroupMsg>()
-                                        .setAction(CommandType.CREATE_GROUP.getType())
+                                        .setAction(CommandType.CREATE_GROUP.getMsgType().getPrefix())
                                         .setMsg((CreateGroupMsg) new CreateGroupMsg().setGroupName("demoGroup"))
                         )
                 )
@@ -44,7 +44,7 @@ public class JoinGroupTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<JoinGroupMsg>()
-                                        .setAction(CommandType.JOIN_GROUP.getType())
+                                        .setAction(CommandType.JOIN_GROUP.getMsgType().getPrefix())
                                         .setMsg((JoinGroupMsg) new JoinGroupMsg().setGroupName("demoGroup"))
                         )
                 )
@@ -57,7 +57,7 @@ public class JoinGroupTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<GroupMemberListMsg>()
-                                        .setAction(CommandType.GROUP_MEMBER_LIST.getType())
+                                        .setAction(CommandType.GROUP_MEMBER_LIST.getMsgType().getPrefix())
                                         .setMsg((GroupMemberListMsg) new GroupMemberListMsg().setGroupName("demoGroup"))
                         )
                 )
@@ -69,7 +69,7 @@ public class JoinGroupTest extends ImServerApplicationTest {
                 ByteBufUtils.writeStringWithLineBreak(
                         JSON.toJSONString(
                                 new MsgParams<GroupMemberListMsg>()
-                                        .setAction(CommandType.GROUP_MEMBER_LIST.getType())
+                                        .setAction(CommandType.GROUP_MEMBER_LIST.getMsgType().getPrefix())
                                         .setMsg((GroupMemberListMsg) new GroupMemberListMsg().setGroupName("demoGroup"))
                         )
                 )
