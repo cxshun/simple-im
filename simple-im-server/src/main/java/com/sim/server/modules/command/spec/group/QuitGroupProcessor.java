@@ -33,7 +33,7 @@ public class QuitGroupProcessor extends AbstractCommandProcessor<QuitGroupMsg> {
     }
 
     @Override
-    protected QuitGroupMsg getArgs(String message) throws BizException {
+    protected QuitGroupMsg getArgs(String message) {
         MsgParams<QuitGroupMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<QuitGroupMsg>>(){}.getType());
         return msgParams.getMsg();
     }

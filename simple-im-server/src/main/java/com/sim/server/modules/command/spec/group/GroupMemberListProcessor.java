@@ -38,7 +38,7 @@ public class GroupMemberListProcessor extends AbstractCommandProcessor<GroupMemb
     }
 
     @Override
-    protected GroupMemberListMsg getArgs(String message) throws BizException {
+    protected GroupMemberListMsg getArgs(String message) {
         MsgParams<GroupMemberListMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<GroupMemberListMsg>>(){}.getType());
         return msgParams.getMsg();
     }

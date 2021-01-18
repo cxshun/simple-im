@@ -52,7 +52,7 @@ public class LoginProcessor extends AbstractCommandProcessor<LoginMsg> {
     }
 
     @Override
-    protected LoginMsg getArgs(String message) throws BizException {
+    protected LoginMsg getArgs(String message) {
         MsgParams<LoginMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<LoginMsg>>(){}.getType());
         return msgParams.getMsg();
     }

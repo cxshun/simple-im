@@ -57,7 +57,7 @@ public class GroupChatProcessor extends AbstractCommandProcessor<GroupChatMsg> {
     }
 
     @Override
-    protected GroupChatMsg getArgs(String message) throws BizException {
+    protected GroupChatMsg getArgs(String message) {
         MsgParams<GroupChatMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<GroupChatMsg>>(){}.getType());
         return msgParams.getMsg();
     }

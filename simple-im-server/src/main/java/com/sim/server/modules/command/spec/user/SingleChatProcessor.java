@@ -34,7 +34,7 @@ public class SingleChatProcessor extends AbstractCommandProcessor<SingleChatMsg>
     }
 
     @Override
-    protected SingleChatMsg getArgs(String message) throws BizException {
+    protected SingleChatMsg getArgs(String message) {
         MsgParams<SingleChatMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<SingleChatMsg>>(){}.getType());
         return msgParams.getMsg();
     }

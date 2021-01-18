@@ -19,7 +19,7 @@ import java.util.List;
 @Component
 public class HelpProcessor extends AbstractCommandProcessor<HelpMsg> {
     @Override
-    public String process(String command) {
+    public String process(String command) throws BizException {
         List<String> commandList = Arrays.asList(
                 ":sChat loginId message - single chat",
                 ":gChat groupName - group chat in specify gid",
@@ -37,7 +37,7 @@ public class HelpProcessor extends AbstractCommandProcessor<HelpMsg> {
     }
 
     @Override
-    protected HelpMsg getArgs(String message) throws BizException {
+    protected HelpMsg getArgs(String message) {
         MsgParams<HelpMsg> msgParams = JSON.parseObject(message, new TypeReference<MsgParams<HelpMsg>>(){}.getType());
         return msgParams.getMsg();
     }
