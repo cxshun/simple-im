@@ -40,7 +40,7 @@ public class LoginProcessor extends AbstractCommandProcessor<LoginMsg> {
         }
 
         //password not match
-        if (!user.getPassword().equals(loginMsg.getLoginId())) {
+        if (!user.getPassword().equals(loginMsg.getPassword())) {
             throw new BizException(MessageCode.CUSTOM_ERROR, "password not match");
         }
 
