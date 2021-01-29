@@ -27,6 +27,6 @@ public class LoginMsg extends UserMsg{
     public MsgSpec parse(String message) {
         String[] strs = message.split(" ");
         String[] loginIdAndPassword = strs[1].split(":");
-        return new LoginMsg().setPassword(loginIdAndPassword[0]).setLoginId(loginIdAndPassword[1]);
+        return new LoginMsg().setPassword(loginIdAndPassword[1]).setLoginId(loginIdAndPassword[0]);
     }
 }

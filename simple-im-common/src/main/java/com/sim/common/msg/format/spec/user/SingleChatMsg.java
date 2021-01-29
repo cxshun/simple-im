@@ -26,6 +26,6 @@ public class SingleChatMsg extends UserMsg{
     @Override
     public MsgSpec parse(String message) {
         String[] strs = message.split(" ");
-        return new SingleChatMsg().setMsg(strs[2]).setMsg(strs[1]);
+        return new SingleChatMsg().setMsg(strs[2]).setLoginId(strs[1]);
     }
 }
